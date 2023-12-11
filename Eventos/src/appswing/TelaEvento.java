@@ -44,6 +44,7 @@ public class TelaEvento {
 	private JButton button_1;
 	private JButton button;
 	private JButton button_2;
+	private JButton button_3 ;
 	private Label label_3;
 	private Label label_4;
 	private JTextField textField_1;
@@ -292,44 +293,48 @@ public class TelaEvento {
 		label_4.setBounds(242, 267, 62, 22);
 		frame.getContentPane().add(label_4);
 		
-		Button button_3 = new Button("New button");
+		Button button_3 = new Button("Ingressos");
 		button_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				try {
-				    // Verifica se uma linha está selecionada
-				    if (table.getSelectedRow() >= 0) {
-				        // Obtém o evento selecionado na tabela
-				        Evento eventoSelecionado = getEventoSelecionado();
+				 try {
+			            // Verifica se uma linha está selecionada
+			            if (table.getSelectedRow() >= 0) {
+			                // Obtém o evento selecionado na tabela
+			                Evento eventoSelecionado = getEventoSelecionado();
 
-				        // Verifica se o evento foi encontrado
-				        if (eventoSelecionado != null) {
-				            // Obtém a lista de ingressos do evento selecionado
-				            ArrayList<Ingresso> ingressos = eventoSelecionado.getIngressos();
+			                // Verifica se o evento foi encontrado
+			                if (eventoSelecionado != null) {
+			                    // Obtém a lista de ingressos do evento selecionado
+			                    ArrayList<Ingresso> ingressos = eventoSelecionado.getIngressos();
 
-				            // Verifica se há ingressos associados ao evento
-				            if (!ingressos.isEmpty()) {
-				                // Monta a mensagem com os ingressos
-				                StringBuilder mensagem = new StringBuilder("Ingressos do evento " + eventoSelecionado.getId() + ":\n");
-				                for (Ingresso ing : ingressos) {
-				                    mensagem.append("Código: ").append(ing.getCodigo()).append(", Telefone: ").append(ing.getTelefone()).append("\n");
-				                }
+			                    // Verifica se há ingressos associados ao evento
+			                    if (!ingressos.isEmpty()) {
+			                        // Monta a mensagem com os ingressos
+			                        StringBuilder mensagem = new StringBuilder("Ingressos do evento " + eventoSelecionado.getId() + ":\n");
+			                        for (Ingresso ing : ingressos) {
+			                            mensagem.append("Código: ").append(ing.getCodigo()).append(", Telefone: ").append(ing.getTelefone()).append("\n");
+			                        }
 
-				                // Exibe a mensagem na label_2
-				                label_2.setText(mensagem.toString());
-				            } else {
-				                label_2.setText("Não há ingressos associados a este evento.");
-				            }
-				        } else {
-				            label_2.setText("Evento não encontrado.");
-				        }
-				    } else {
-				        label_2.setText("Selecione uma linha antes de listar os ingressos.");
-				    }
-				} catch (Exception ex) {
-				    label_2.setText(ex.getMessage());
-				}
-			}
+			                        // Exibe a mensagem em um JOptionPane.showOptionDialog
+			                        JOptionPane.showOptionDialog(null, mensagem.toString(), "Ingressos do Evento", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, new Object[]{}, null);
+			                    } else {
+			                        JOptionPane.showMessageDialog(null, "Não há ingressos associados a este evento.", "Ingressos do Evento", JOptionPane.INFORMATION_MESSAGE);
+			                    }
+			                } else {
+			                    JOptionPane.showMessageDialog(null, "Evento não encontrado.", "Ingressos do Evento", JOptionPane.INFORMATION_MESSAGE);
+			                }
+			            } else {
+			                JOptionPane.showMessageDialog(null, "Selecione uma linha antes de listar os ingressos.", "Ingressos do Evento", JOptionPane.INFORMATION_MESSAGE);
+			            }
+			        } catch (Exception ex) {
+			            JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+			        }
+			    }
 
+		
+		
+			
+			
 			private Evento getEventoSelecionado() {
 			    // Obtém o ID do evento selecionado
 			    Integer idEvento = (Integer) table.getValueAt(table.getSelectedRow(), 0);
@@ -345,7 +350,8 @@ public class TelaEvento {
 			}
 
 		});
-		button_3.setBounds(467, 144, 88, 22);
+	
+		button_3.setBounds(467, 144, 155, 22);
 		frame.getContentPane().add(button_3);
 		
 		

@@ -18,8 +18,8 @@ public class Participante {
 	
 	
 	public int calcularIdade() {
-        // Converter a string da data de nascimento para LocalDate
-        LocalDate dataNascimento = LocalDate.parse(nascimento, DateTimeFormatter.ISO_DATE);
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate dataNascimento = LocalDate.parse(nascimento, formatter);
 
         // Obter a data atual
         LocalDate dataAtual = LocalDate.now();
@@ -29,9 +29,6 @@ public class Participante {
 
         // Retornar a idade do participante
         return (int) diferencaAnos;
-
-		
-		
 		
 		
 	}

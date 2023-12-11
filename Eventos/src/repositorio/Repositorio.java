@@ -20,7 +20,9 @@ public class Repositorio {
 	
 
 	
-	
+	public Repositorio() {
+	    carregarObjetos(); // ler dados dos arquivos
+	}
 	
 	
 	

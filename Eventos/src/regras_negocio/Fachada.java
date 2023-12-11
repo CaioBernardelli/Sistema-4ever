@@ -230,10 +230,13 @@ public class Fachada {
 		public static ArrayList<Participante> listarParticipantes(){
 			return repositorio.getParticipantes();
 
+	
 		
-		
-		
-		
+		}
+
+		public static boolean participanteExiste(String cpf) {
+			// TODO Stub de método gerado automaticamente
+			return false;
 		}
 
 
