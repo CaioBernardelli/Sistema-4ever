@@ -4,6 +4,7 @@ import modelo.Evento;
 import modelo.Ingresso;
 import modelo.Participante;
 import regras_negocio.Fachada;
+import repositorio.Repositorio;
 
 public class Teste1 {
 
@@ -106,7 +107,10 @@ public class Teste1 {
 
 	public static void main (String[] args) 
 	{
+		Repositorio repositorio = new Repositorio();
+	    repositorio.apagarTodosOsDados();
 		new Teste1();
+
 	}
 }
 

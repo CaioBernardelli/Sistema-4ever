@@ -3,10 +3,7 @@ package appswing;
 
 
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Font;
-import java.awt.Label;
-
 import javax.swing.JFrame;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -15,7 +12,6 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
 import modelo.Convidado;
-import modelo.Evento;
 import modelo.Ingresso;
 import modelo.Participante;
 import regras_negocio.Fachada;
@@ -350,8 +346,6 @@ public class TelaParticipantes {
 				model.addColumn("empresa");
 	
 				
-				//criar as linhas da tabela
-				String texto;
 				for (Participante p : lista) {
 		            if (p instanceof Convidado) {
 		                // Se o participante for um Convidado, exibe a empresa

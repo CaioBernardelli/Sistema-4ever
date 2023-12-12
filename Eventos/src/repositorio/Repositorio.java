@@ -97,7 +97,7 @@ public class Repositorio {
    	}
     
     public void remover(Ingresso i) {
-    	ingressos.add(i);
+    	ingressos.remove(i);
 		
 		
    	}
@@ -239,32 +239,42 @@ public void carregarObjetos()  	{
 			throw new RuntimeException("leitura arquivo de participantes:"+ex.getMessage());
 		}
 		
-		try	{
-			String codigo, telefone,cpf;
-			int id;
-			File f = new File( new File(".\\ingressos.csv").getCanonicalPath())  ;
-			Scanner arquivo3 = new Scanner(f);	 //  pasta do projeto
-			while(arquivo3.hasNextLine()) 	{
-				linha = arquivo3.nextLine().trim();	
-				partes = linha.split(";");
-				//System.out.println(Arrays.toString(partes));
-				codigo = partes[0];		//contem id e cpf
-				telefone = partes[1];
-				id = Integer.parseInt(codigo.split("-")[0]);
-				cpf = codigo.split("-")[1];
-				evento = this.localizarEvento(id);
-				participante = this.localizarParticipante(cpf);
-				
-				ingresso = new Ingresso(codigo,telefone,evento,participante);
-				evento.adicionar(ingresso);
-				participante.adicionar(ingresso);
-				this.adicionar(ingresso);
-			}
-			arquivo3.close();
-		}
-		catch(Exception ex)		{
-			throw new RuntimeException("leitura arquivo de participantes:"+ex.getMessage());
-		}
+		try {
+	        String codigo, telefone, cpf;
+	        int id;
+	        File f = new File(new File(".\\ingressos.csv").getCanonicalPath());
+	        Scanner arquivo3 = new Scanner(f);
+
+	        while (arquivo3.hasNextLine()) {
+	            linha = arquivo3.nextLine().trim();
+	            partes = linha.split(";");
+	            
+	            // Se estiverem faltando elementos na linha, pule para a próxima iteração
+	            if(partes.length < 2) {
+	                continue;
+	            }
+	            
+	            codigo = partes[0]; // contém id e cpf
+	            telefone = partes[1];
+	            id = Integer.parseInt(codigo.split("-")[0]);
+	            cpf = codigo.split("-")[1];
+	            evento = this.localizarEvento(id);
+	            participante = this.localizarParticipante(cpf);
+
+	            if (evento != null && participante != null) {
+	                ingresso = new Ingresso(codigo, telefone, evento, participante);
+	                evento.adicionar(ingresso);
+	                participante.adicionar(ingresso);
+	                this.adicionar(ingresso);
+	            } else {
+	                System.out.println("Evento ou Participante não encontrado para o ingresso com código: " + codigo);
+	            }
+	        }
+	        arquivo3.close();
+	    } catch (Exception ex) {
+	        throw new RuntimeException("leitura arquivo de ingressos:" + ex.getMessage());
+	    }
+		
 	}
 
 	//--------------------------------------------------------------------
@@ -322,6 +332,15 @@ public void carregarObjetos()  	{
 	    }
 	    return null;
 	}
+	public void apagarTodosOsDados() {
+	    eventos.clear();
+	    participantes.clear();
+	    ingressos.clear();
+
+	    // Após limpar os dados, salve os arquivos CSV vazios novamente
+	    salvarObjetos();
+	}
+
 
 	
 	

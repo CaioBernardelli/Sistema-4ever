@@ -3,6 +3,7 @@ package regras_negocio;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.List;
 
 import modelo.Convidado;
 import modelo.Evento;
@@ -63,8 +64,6 @@ public class Fachada {
 	    repositorio.salvarObjetos();
 	}
 
-	
-	
 	   public static void criarConvidado(String cpf, String nascimento, String empresa) throws Exception {
 
 		   if (cpf == null || cpf.isEmpty()) {
@@ -87,11 +86,6 @@ public class Fachada {
 		   
 		   
 	   }
-	
-	
-	   
-	   
-	   
 	
 	   public static void criarIngresso(int id, String cpf, String telefone) throws Exception {
 		    Evento ev = repositorio.localizarEvento(id);
@@ -131,7 +125,6 @@ public class Fachada {
 		}
 
 	
-	
 	   public static void apagarEvento(int id) throws Exception {
 		    Evento ev = repositorio.localizarEvento(id);
 
@@ -147,11 +140,6 @@ public class Fachada {
 		    repositorio.remover(ev);
 		    repositorio.salvarObjetos();
 		}
-
- 
-
-	   
-	   
 
 	   public static void apagarParticipante(String cpf) throws Exception{
 		   Participante  p = repositorio.localizarParticipante(cpf);
@@ -189,9 +177,6 @@ public class Fachada {
 	   }
 	   
 	   
-	   
-
-	   
 	   public static void apagarIngresso(String codigo) throws Exception {
 		   Ingresso i = null;
 
@@ -217,8 +202,39 @@ public class Fachada {
 		    repositorio.salvarObjetos();
 		}
 	   
+	   private static List<Ingresso> listaDeIngressos = new ArrayList<>();
+
+	    public static void adicionarIngresso(Ingresso ingresso) {
+	        listaDeIngressos.add(ingresso);
+	    }
+
+	    public static Ingresso buscarIngressoPorCodigo(String codigo) {
+	        for (Ingresso ingresso : listaDeIngressos) {
+	            if (ingresso.getCodigo().equals(codigo)) {
+	                return ingresso;
+	            }
+	        }
+	        return null;
+	    }
 	   
-	   
+	    public static Evento localizarEvento(int id) {
+	        for (Evento evento : repositorio.getEventos()) {
+	            if (evento.getId() == id) {
+	                return evento;
+	            }
+	        }
+	        return null; // Retorna null se o evento não for encontrado
+	    }
+
+	    public static Participante localizarParticipante(String cpf) {
+	        for (Participante participante : repositorio.getParticipantes()) {
+	            if (participante.getCpf().equals(cpf)) {
+	                return participante;
+	            }
+	        }
+	        return null; // Retorna null se o participante não for encontrado
+	    }
+
 
 		public static ArrayList<Evento> listarEventos(){
 			return repositorio.getEventos();
@@ -230,8 +246,6 @@ public class Fachada {
 		public static ArrayList<Participante> listarParticipantes(){
 			return repositorio.getParticipantes();
 
-	
-		
 		}
 
 		public static boolean participanteExiste(String cpf) {
