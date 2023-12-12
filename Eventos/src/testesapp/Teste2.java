@@ -1,11 +1,14 @@
 package testesapp;
 
 import regras_negocio.Fachada;
+import repositorio.Repositorio;
 
 public class Teste2 {
 
 	public static void main (String[] args) {
 		//dados para teste
+		Repositorio repositorio = new Repositorio();
+	    repositorio.apagarTodosOsDados();
 		String cpf1 = "91";
 		String cpf2 = "92";
 		String cpf3 = "93";

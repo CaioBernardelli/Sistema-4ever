@@ -148,33 +148,27 @@ public class Fachada {
 		   }
 		  
 		   
-		   int tamanho = p.getIngressos().size();
-	        if (tamanho > 0) {
-	            Ingresso ultimoValor = p.getIngressos().get(tamanho - 1);
-	         
-            Evento eventoUltimoIngresso = ultimoValor.getEvento();
-            
-            String dataEventoUltimoIngresso = eventoUltimoIngresso.getData();
-            
-            
-            
-            LocalDate dateEventoUltimoIngresso = LocalDate.parse(dataEventoUltimoIngresso, DateTimeFormatter.ISO_DATE);
-            LocalDate dataAtual = LocalDate.now();
-            
-            
-            
-            if (dateEventoUltimoIngresso.isBefore(dataAtual)) {
-	         
-		       for (Ingresso ingresso : p.getIngressos()) {
-	            repositorio.remover(ingresso);
-	        }
-            } 
+		   ArrayList<Ingresso> ingressosDoParticipante = p.getIngressos();
+
+		    if (!ingressosDoParticipante.isEmpty()) {
+		        Ingresso ultimoIngresso = ingressosDoParticipante.get(ingressosDoParticipante.size() - 1);
+		        Evento eventoUltimoIngresso = ultimoIngresso.getEvento();
+
+		        LocalDate dataEventoUltimoIngresso = LocalDate.parse(eventoUltimoIngresso.getData(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+		        LocalDate dataAtual = LocalDate.now();
+
+		        if (dataEventoUltimoIngresso.isBefore(dataAtual)) {
+		            for (Ingresso ingresso : ingressosDoParticipante) {
+		                repositorio.remover(ingresso);
+		            }
+		        }
+		    }
 			   
 			   repositorio.remover(p);
 			   repositorio.salvarObjetos();
 			   
 		   }
-	   }
+	   
 	   
 	   
 	   public static void apagarIngresso(String codigo) throws Exception {
