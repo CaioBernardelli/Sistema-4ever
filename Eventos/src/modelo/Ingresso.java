@@ -1,5 +1,8 @@
 package modelo;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class Ingresso {
 	public String getCodigo() {
 		return codigo;
@@ -73,6 +76,14 @@ public class Ingresso {
 		return precoFinal;
 		
 	}
+	
+	public boolean verificaIngressoUltrapassado() {
+        DateTimeFormatter f = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate dataEvento = LocalDate.parse(this.getEvento().getData(), f);
+        LocalDate hoje = LocalDate.now();
+
+        return dataEvento.isAfter(hoje); // Se a data do evento for maior do que a data de hoje, retorna true, provando que a data do evento não está ultrapassada
+    }
 	
 
 }

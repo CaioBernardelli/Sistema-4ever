@@ -1,7 +1,5 @@
 package regras_negocio;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -141,33 +139,36 @@ public class Fachada {
 		    repositorio.salvarObjetos();
 		}
 
-	   public static void apagarParticipante(String cpf) throws Exception{
-		   Participante  p = repositorio.localizarParticipante(cpf);
-		   if (p == null) {
-			   throw new Exception("Participante com cpf "+ cpf + " não encontrado");
-		   }
-		  
-		   
-		   ArrayList<Ingresso> ingressosDoParticipante = p.getIngressos();
+	   public static void apagarParticipante(String cpf) throws Exception {
+			Participante p = repositorio.localizarParticipante(cpf);
 
-		    if (!ingressosDoParticipante.isEmpty()) {
-		        Ingresso ultimoIngresso = ingressosDoParticipante.get(ingressosDoParticipante.size() - 1);
-		        Evento eventoUltimoIngresso = ultimoIngresso.getEvento();
+			if (p == null) { // Lança exceção caso o participante não seja encontrado
+				throw new Exception("Participante não encontrado");
+			}
+//			
+			// Verifica se o último ingresso do participante está ultrapassado
+			Ingresso ultimoIngresso;
 
-		        LocalDate dataEventoUltimoIngresso = LocalDate.parse(eventoUltimoIngresso.getData(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-		        LocalDate dataAtual = LocalDate.now();
+			if (p.getIngressos().isEmpty()) {
+				ultimoIngresso = null;
+			}
+			else {
+				ultimoIngresso = p.getIngressos().get(p.getIngressos().size() - 1);
+			}
 
-		        if (dataEventoUltimoIngresso.isBefore(dataAtual)) {
-		            for (Ingresso ingresso : ingressosDoParticipante) {
-		                repositorio.remover(ingresso);
-		            }
-		        }
-		    }
-			   
-			   repositorio.remover(p);
-			   repositorio.salvarObjetos();
-			   
-		   }
+			if (ultimoIngresso != null && ultimoIngresso.verificaIngressoUltrapassado()) {
+			    throw new Exception("O último ingresso não está ultrapassado");
+			}
+
+			// Remove todos os ingressos associados ao participante
+			for (Ingresso ingresso : new ArrayList<>(p.getIngressos())) {
+				apagarIngresso(ingresso.getCodigo());
+			}
+
+			// Remove o participante do repositório
+			repositorio.remover(p);
+			repositorio.salvarObjetos();
+		}
 	   
 	   
 	   
