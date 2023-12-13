@@ -3,6 +3,11 @@ package modelo;
 import java.util.ArrayList;
 
 public class Evento {
+	@Override
+	public String toString() {
+		return "Evento [id=" + id + ", data=" + data + ", descricao=" + descricao + ", capacidade=" + capacidade
+				+ ", preco=" + preco + ", ingressos=" + ingressos + "]";
+	}
 	public int getId() {
 		return id;
 	}

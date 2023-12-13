@@ -3,6 +3,11 @@ package modelo;
 
 
 public class Convidado extends Participante {
+	@Override
+	public String toString() {
+		return "Convidado [empresa=" + empresa + "]";
+	}
+
 	public String getEmpresa() {
 		return empresa;
 	}

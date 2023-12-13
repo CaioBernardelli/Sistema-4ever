@@ -119,7 +119,7 @@ public class Fachada {
 		    ev.adicionar(ingresso);
 		    repositorio.salvarObjetos();
 
-		    System.out.println("Ingresso criado com sucesso para o participante com CPF " + cpf + ".");
+		 
 		}
 
 	

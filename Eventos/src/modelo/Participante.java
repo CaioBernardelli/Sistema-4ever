@@ -6,6 +6,13 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
 public class Participante {
+	@Override
+	public String toString() {
+		return "Participante [cpf=" + cpf + ", nascimento=" + nascimento + ", ingressos=" + ingressos + "]";
+	}
+
+
+
 	public Participante(String cpf, String nascimento) {
 		super();
 		this.cpf = cpf;
