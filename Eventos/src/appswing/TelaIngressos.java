@@ -11,218 +11,287 @@ import regras_negocio.Fachada;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+
 
 public class TelaIngressos {
 
-    private JFrame frame;
-    private JTable table;
-    private JTextField textFieldCodigo;
-    private JLabel label;
-    private JTextField textFieldTelefone;
-    private JTextField textFieldCPF;
+	
+	
+	private JScrollPane scrollPane;
+	private JFrame frame;
+	private JTable table;
+	private JTextField textField;
+	private JTextField textField_1;
+	private JTextField textField_2;
+	private JLabel lblNewLabel_3;
+	private JLabel lblNewLabel_4;
 
-    public TelaIngressos() {
-        initialize();
-        frame.setVisible(true);
-    }
+	/**
+	 * Launch the application.
+	 */
+//	public static void main(String[] args) {
+	//	EventQueue.invokeLater(new Runnable() {
+	//		public void run() {
+	//			try {
+	//				TelaParticipantes window = new TelaParticipantes();
+	//				window.frame.setVisible(true);
+		//		} catch (Exception e) {
+		//			e.printStackTrace();
+		//		}
+		//	}
+		//});
+//	}
 
-    private void initialize() {
-        frame = new JFrame();
-        frame.setTitle("Ingressos");
-        frame.setBounds(100, 100, 659, 362);
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.getContentPane().setLayout(null);
+	/**
+	 * Create the application.
+	 */
+	public TelaIngressos() {
+		initialize();
+		frame.setVisible(true);
+	}
 
-        JScrollPane scrollPane = new JScrollPane();
-        scrollPane.setBounds(10, 11, 431, 207);
-        frame.getContentPane().add(scrollPane);
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frame = new JFrame();
+		frame.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowOpened(WindowEvent e) {
+				listagem();
+				
+			}
+		});
+		
+		frame.setTitle("Ingressos"
+				+ "");
+		frame.setBounds(100, 100, 659, 362);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frame.getContentPane().setLayout(null);
+		
+		scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 11, 431, 207);
+		frame.getContentPane().add(scrollPane);
+		
+		table = new JTable() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 990766255421908251L;
 
-        table = new JTable();
-        scrollPane.setViewportView(table);
+			/**
+			 * 
+			 */
+	
 
-        table.setGridColor(Color.BLACK);
-        table.setRequestFocusEnabled(false);
-        table.setFocusable(false);
-        table.setBackground(Color.WHITE);
-        table.setFillsViewportHeight(true);
-        table.setRowSelectionAllowed(true);
-        table.setFont(new Font("Tahoma", Font.PLAIN, 14));
-        table.setBorder(new LineBorder(new Color(0, 0, 0)));
-        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        table.setShowGrid(true);
-        table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+			/**
+			 * 
+			 */
+			
+			/**
+			 * 
+			 */
+		
+			public boolean isCellEditable(int rowIndex, int vColIndex) {
+				return false;
+			}
+		};
+		scrollPane.setViewportView(table);
+		
+		
+		
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (table.getSelectedRow() >= 0) 
+				 lblNewLabel_3.setText("selecionado="+ table.getValueAt( table.getSelectedRow(), 0));
+			}
+		});
+		table.setGridColor(Color.BLACK);
+		table.setRequestFocusEnabled(false);
+		table.setFocusable(false);
+		table.setBackground(Color.WHITE);
+		table.setFillsViewportHeight(true);
+		table.setRowSelectionAllowed(true);
+		table.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		table.setBorder(new LineBorder(new Color(0, 0, 0)));
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		table.setShowGrid(true);
+		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+		textField = new JTextField();
+		textField.setBounds(81, 244, 86, 20);
+		frame.getContentPane().add(textField);
+		textField.setColumns(10);
+		
+		textField_1 = new JTextField();
+		textField_1.setBounds(258, 244, 86, 20);
+		frame.getContentPane().add(textField_1);
+		textField_1.setColumns(10);
+		
+		textField_2 = new JTextField();
+		textField_2.setBounds(148, 277, 86, 20);
+		frame.getContentPane().add(textField_2);
+		textField_2.setColumns(10);
 
-        textFieldCodigo = new JTextField();
-        textFieldCodigo.setBounds(81, 244, 86, 20);
-        frame.getContentPane().add(textFieldCodigo);
-        textFieldCodigo.setColumns(10);
-        
-        JLabel lblCodigo = new JLabel("Código");
-        lblCodigo.setBounds(25, 247, 46, 14);
-        frame.getContentPane().add(lblCodigo); 
-        
-        textFieldTelefone = new JTextField();
-        textFieldTelefone.setBounds(81, 274, 86, 20); // Ajuste a posição e o tamanho conforme necessário
-        frame.getContentPane().add(textFieldTelefone);
-        textFieldTelefone.setColumns(10);
-        
-        JLabel lbTelefone = new JLabel("Telefone");
-        lbTelefone.setBounds(25, 277, 46, 19);
-        frame.getContentPane().add(lbTelefone); 
+		
+		JLabel lblNewLabel = new JLabel("ID");
+		lblNewLabel.setBounds(25, 247, 46, 14);
+		frame.getContentPane().add(lblNewLabel);
+		
+		JLabel lblNewLabel_1 = new JLabel("CPF");
+		lblNewLabel_1.setBounds(178, 247, 70, 14);
+		frame.getContentPane().add(lblNewLabel_1);
+		
+		JLabel lblNewLabel_2 = new JLabel("Telefone");
+		lblNewLabel_2.setBounds(78, 280, 46, 14);
+		frame.getContentPane().add(lblNewLabel_2);
+		
+		JButton btnNewButton = new JButton("Criar");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				  try {
+			            // Verifica se os campos de texto estão vazios
+			            if (textField_1.getText().isEmpty() ||  textField.getText().isEmpty()) {
+			            	lblNewLabel_3.setText("Preencha todos os campos");
+			                return;
+			            }
+                               
+			            
+			            
+			            
+			            String id  = textField.getText().trim();
+			            String cpf = textField_1.getText().trim();
+			            String telefone = textField_2.getText().trim();
+			             
 
-        JButton btnPesquisar = new JButton("Pesquisar");
-        btnPesquisar.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                pesquisarIngresso();
-            }
-        });
-        btnPesquisar.setBounds(258, 243, 100, 23);
-        frame.getContentPane().add(btnPesquisar);
+			            int idEvento = Integer.parseInt(id);
+			            Evento evento = Fachada.localizarEvento(idEvento); // Método para localizar o evento pelo ID
 
-        label = new JLabel("");
-        label.setForeground(Color.RED);
-        label.setBounds(10, 309, 469, 14);
-        frame.getContentPane().add(label);
+			            if (evento == null) {
+			            	lblNewLabel_3.setText("Evento não encontrado");
+			                return;
+			            }
+			            
+			            Participante participante = Fachada.localizarParticipante(cpf); // Método para localizar o participante pelo CPF
 
-        JButton btnListarIngressos = new JButton("Listar Ingressos");
-        btnListarIngressos.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                listarIngressos();
-            }
-        });
-        btnListarIngressos.setBounds(450, 11, 183, 23);
-        frame.getContentPane().add(btnListarIngressos);
-
-        JButton btnCriarIngresso = new JButton("Criar Ingresso");
-        btnCriarIngresso.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                criarIngresso();
-            }
-        });
-        
-        btnCriarIngresso.setBounds(450, 45, 183, 23);
-        frame.getContentPane().add(btnCriarIngresso);
-
-        JButton btnApagarIngresso = new JButton("Apagar Ingresso");
-        btnApagarIngresso.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                apagarIngresso();
-            }
-        });
-        btnApagarIngresso.setBounds(450, 79, 183, 23);
-        frame.getContentPane().add(btnApagarIngresso);
-    }
-    private void pesquisarIngresso() {
-        try {
-            String codigo = textFieldCodigo.getText().trim();
-
-            if (codigo.isEmpty()) {
-                label.setText("Preencha o código do ingresso");
-                return;
-            }
-
-            Ingresso ingresso = Fachada.buscarIngressoPorCodigo(codigo);
-
-            if (ingresso != null) {
-                double precoFinal = ingresso.calcularPreço();
-                label.setText("Detalhes do ingresso: Código: " + ingresso.getCodigo() +
-                        ", Telefone: " + ingresso.getTelefone() +
-                        ", Preço Final: " + precoFinal);
-            } else {
-                label.setText("Ingresso não encontrado");
-            }
-        } catch (Exception ex) {
-            label.setText("Erro: " + ex.getMessage());
-        }
-    }
-
-
-    private void listarIngressos() {
-        try {
-            ArrayList<Ingresso> listaDeIngressos = Fachada.listarIngresos();
-
-            DefaultTableModel model = new DefaultTableModel();
-            model.addColumn("Código");
-            model.addColumn("Telefone");
-            model.addColumn("Preço Final");
-
-            for (Ingresso ingresso : listaDeIngressos) {
-                double precoFinal = ingresso.calcularPreço();
-
-                model.addRow(new Object[]{
-                        ingresso.getCodigo(),
-                        ingresso.getTelefone(),
-                        precoFinal
-                });
-            }
-
-            table.setModel(model);
-        } catch (Exception ex) {
-            label.setText("Erro ao listar ingressos: " + ex.getMessage());
-        }
-    }
-
-    private void criarIngresso() {
-        try {
-            String codigo = textFieldCodigo.getText().trim();
-            String telefone = textFieldTelefone.getText().trim();
-
-            if (codigo.isEmpty() || telefone.isEmpty()) {
-                label.setText("Preencha todos os campos");
-                return;
-            }
-
-            int selectedRow = table.getSelectedRow();
-
-            if (selectedRow == -1) {
-                label.setText("Selecione um evento na lista");
-                return;
-            }
-
-            int eventId = (int) table.getValueAt(selectedRow, 0); // Ajuste para pegar o ID do evento na tabela
-
-            Evento evento = Fachada.localizarEvento(eventId); // Método para localizar o evento pelo ID
-
-            if (evento == null) {
-                label.setText("Evento não encontrado");
-                return;
-            }
-
-            String cpfParticipante = textFieldCPF.getText();
-
-            Participante participante = Fachada.localizarParticipante(cpfParticipante); // Método para localizar o participante pelo CPF
-
-            if (participante == null) {
-                label.setText("Participante não encontrado");
-                return;
-            }
-
-            Fachada.criarIngresso(eventId, cpfParticipante, telefone);
-            listarIngressos();
-            label.setText("Ingresso criado com sucesso");
-        } catch (Exception ex) {
-            label.setText("Erro ao criar ingresso: " + ex.getMessage());
-        }
-    }
+			            if (participante == null) {
+			            	lblNewLabel_3.setText("Participante não encontrado");
+			                return;
+			            }
 
 
+			            // Verifica se a string de data não está vazia
+			            Fachada.criarIngresso(idEvento, cpf, telefone);
+			            listagem();
+			        } catch (NumberFormatException ex) {
+			        	lblNewLabel_3.setText("Erro de formato numérico: " + ex.getMessage());
+			        } catch (Exception ex) {
+			        	lblNewLabel_3.setText("Erro: " + ex.getMessage());
+			        }
+			    }
+			   
+				 
+		});
+		btnNewButton.setBounds(390, 258, 89, 23);
+		frame.getContentPane().add(btnNewButton);
+		
+		JButton btnNewButton_1 = new JButton("Listar");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnNewButton_1.setBounds(503, 29, 130, 23);
+		frame.getContentPane().add(btnNewButton_1);
+		
+		JButton btnNewButton_2 = new JButton("Apagar");
+		btnNewButton_2.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        try {
+		            if (table.getSelectedRow() >= 0) {
+		                String codigo = (String) table.getValueAt(table.getSelectedRow(), 0);
+		                
+		                // Confirmação
+		                Object[] options = { "Confirmar", "Cancelar" };
+		                int escolha = JOptionPane.showOptionDialog(null, "Confirma exclusão do p " + codigo, "Alerta",
+		                        JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[1]);
+		                
+		                if (escolha == 0) {
+		                    Fachada.apagarIngresso(codigo); // Chame o método de apagar participante da sua Fachada
+		                    lblNewLabel_4.setText("Exclusão realizada");
+		                    listagem();
+		                } else {
+		                    lblNewLabel_4.setText("Exclusão cancelada");
+		                }
+		            } else {
+		                lblNewLabel_4.setText("Selecione uma linha");
+		            }
+		        } catch (Exception erro) {
+		            lblNewLabel_4.setText(erro.getMessage());
+		        }
+		    }
+		});
 
-    private void apagarIngresso() {
-        try {
-            int selectedRow = table.getSelectedRow();
-            if (selectedRow == -1) {
-                label.setText("Selecione um ingresso para apagar");
-                return;
-            }
+		btnNewButton_2.setBounds(503, 76, 130, 23);
+		frame.getContentPane().add(btnNewButton_2);
+		
+	    lblNewLabel_3 = new JLabel("");
+	    lblNewLabel_3.setForeground(Color.RED);
+		lblNewLabel_3.setBounds(10, 309, 469, 14);
+		frame.getContentPane().add(lblNewLabel_3);
+		
+		lblNewLabel_4 = new JLabel("");
+		lblNewLabel_4.setBounds(20, 218, 395, 14);
+		frame.getContentPane().add(lblNewLabel_4);
+		
+	}
+		
+		
+		public void listagem() {
+			try{
+				ArrayList<Ingresso> lista = Fachada.listarIngresos();
+			
+				//objeto model contem todas as linhas e colunas da tabela
+				DefaultTableModel model = new DefaultTableModel();
 
-            String codigoIngresso = (String) table.getValueAt(selectedRow, 0);
-            Fachada.apagarIngresso(codigoIngresso);
+				//criar as colunas (0,1,2) da tabela
+				model.addColumn("codigo");
+				model.addColumn("telefone");
+				model.addColumn("preço do ingresso");
+				model.addColumn("preço do evento");
+				model.addColumn("data do evento");
+				model.addColumn("idade do participante");
+	
+				 				
+				for(Ingresso i : lista)
+				{
+					Evento evento = i.getEvento();
+		            Participante participante = i.getParticipante();
+		            double precoEvento = evento.getPreco(); // Substitua isso pelo método correto
+		            String dataEvento = evento.getData(); // Substitua isso pelo método correto
+		            int idadeParticipante = participante.calcularIdade(); // Substitua isso pelo método correto
+			
+						model.addRow(new Object[]{i.getCodigo(), i.getTelefone(),i.calcularPreço(),precoEvento, dataEvento, idadeParticipante,});
+				
+				}
+				table.setModel(model);
+				lblNewLabel_4.setText("resultados: "+lista.size()+ " linhas   - selecione uma linha");
 
-            listarIngressos();
-            label.setText("Ingresso apagado com sucesso");
-        } catch (Exception ex) {
-            label.setText("Erro ao apagar ingresso: " + ex.getMessage());
-        }
-    }
+				//redimensionar a coluna 2
+				table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF); 		//desabilita
+				table.getColumnModel().getColumn(0).setMaxWidth(50);	
+				table.getColumnModel().getColumn(1).setMaxWidth(100);	
+				table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS); //habilita
+			}
+			catch(Exception erro){
+				lblNewLabel_4.setText(erro.getMessage());
+			}
+	}
 }

@@ -118,12 +118,13 @@ public class Repositorio {
     
     
     public Participante localizarParticipante(String cpf) {
-    	for(Participante pa : participantes){
-			if(pa.getCpf()==cpf)
-				return pa;
-		}
-		return null;
-	}
+        for (Participante pa : participantes) {
+            if (pa.getCpf().equals(cpf)) {
+                return pa;
+            }
+        }
+        return null;
+    }
     	
     	
 
