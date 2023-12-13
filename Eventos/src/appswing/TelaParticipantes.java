@@ -221,13 +221,6 @@ public class TelaParticipantes {
 		btnNewButton.setBounds(390, 258, 89, 23);
 		frame.getContentPane().add(btnNewButton);
 		
-		JButton btnNewButton_1 = new JButton("Listar");
-		btnNewButton_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnNewButton_1.setBounds(503, 29, 130, 23);
-		frame.getContentPane().add(btnNewButton_1);
 		
 		JButton btnNewButton_2 = new JButton("Apagar");
 		btnNewButton_2.addActionListener(new ActionListener() {

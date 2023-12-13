@@ -269,15 +269,6 @@ public class TelaEvento {
 		button.setBounds(462, 98, 160, 23);
 		frame.getContentPane().add(button);
 
-		button_2 = new JButton("Listar");
-		button_2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				listagem();
-			}
-		});
-		button_2.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		button_2.setBounds(462, 57, 160, 23);
-		frame.getContentPane().add(button_2);
 		
 	
 		Label label_1 = new Label("descrição");
