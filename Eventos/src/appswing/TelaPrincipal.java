@@ -104,7 +104,7 @@ public class TelaPrincipal {
         menu.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                JOptionPane.showMessageDialog(frame, "IFPB - TSI \nPOO \nProf. Fausto Ayres", "Sobre o autor", 1);
+                JOptionPane.showMessageDialog(frame, "IFPB - TSI \nPOO \nCaio e Gabriel", "Sobre o autor", 1);
             }
         });
         menuBar.add(menu);
